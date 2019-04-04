@@ -16,9 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.confidential.AdminPortal.security.CustomUserDetailsService;
 import com.confidential.AdminPortal.security.JwtAuthenticationEntryPoint;
 import com.confidential.AdminPortal.security.JwtAuthenticationFilter;
+import com.confidential.AdminPortal.service.CustomUserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +30,7 @@ import com.confidential.AdminPortal.security.JwtAuthenticationFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   
 	@Autowired
-    CustomUserDetailsService customUserDetailsService;
+	CustomUserDetailsServiceImpl customUserDetailsService;
 
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -72,7 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                    .antMatchers("/",
+                .antMatchers("/",
+                		 "/login",
+                        "/index",
+                        "/index.html",
                         "/favicon.ico",
                         "/**/*.png",
                         "/**/*.gif",
@@ -80,9 +83,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.jpg",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js")
+                        "/**/*.map",
+                        "/**/*.js",
+                        "/build/static/js/*.js")
                         .permitAll()
-                    .antMatchers("/api/auth/**")
+                        
+                    .antMatchers("/api/auth/**","/api/users/**")
                         .permitAll()
                     .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                         .permitAll()

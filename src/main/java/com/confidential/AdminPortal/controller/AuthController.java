@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.confidential.AdminPortal.exception.AppException;
 import com.confidential.AdminPortal.model.Role;
@@ -32,7 +34,9 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthController<Auth> {
+
+	Logger log = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -58,14 +62,15 @@ public class AuthController {
                 .buildAndExpand("Kishore").toUri();
 System.out.println("User login successfully");
         return ResponseEntity.created(location).body(new ApiResponse(true, "User login successfully"));
-    }*/
-   /* @PostMapping("/signin")
+    }
+   @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody Auth auth) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                		auth.getAuth().getUsernameOrEmail(),
-                		auth.getAuth().getPassword()
+                		//auth.getAuth().getUsernameOrEmail(),
+                		//auth.getAuth().getPassword()
+                		"test","test"
                 )
         );
 
@@ -75,22 +80,21 @@ System.out.println("User login successfully");
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 */
-  @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
-    }
-
+	
+	 @PostMapping("/signin") public ResponseEntity<?>
+	 authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		 System.out.println("This is a DEBUG message."+passwordEncoder.encode(loginRequest.getPassword()));
+		 log.debug("This is a DEBUG message."+passwordEncoder.encode(loginRequest.getPassword()));
+	 Authentication authentication = authenticationManager.authenticate( new
+	 UsernamePasswordAuthenticationToken( loginRequest.getUsernameOrEmail(),
+	 loginRequest.getPassword() ) );
+	 
+	 SecurityContextHolder.getContext().setAuthentication(authentication);
+	 
+	 String jwt = tokenProvider.generateToken(authentication); return
+	 ResponseEntity.ok(new JwtAuthenticationResponse(jwt)); 
+	 }
+	 
     @SuppressWarnings("unchecked")
 	@PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {

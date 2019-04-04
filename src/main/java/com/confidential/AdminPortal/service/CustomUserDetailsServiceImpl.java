@@ -1,4 +1,4 @@
-package com.confidential.AdminPortal.security;
+package com.confidential.AdminPortal.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.confidential.AdminPortal.model.User;
 import com.confidential.AdminPortal.repository.UserRepository;
+import com.confidential.AdminPortal.security.UserPrincipal;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
@@ -21,11 +22,17 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail)
             throws UsernameNotFoundException {
         // Let people login with either username or email
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+     
+    	User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
                 .orElseThrow(() -> 
                         new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail)
         );
-
+ /*
+    	User user = userRepository.findByEmail(usernameOrEmail)
+                .orElseThrow(() -> 
+                        new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail)
+        );
+        */
         return UserPrincipal.create(user);
     }
 

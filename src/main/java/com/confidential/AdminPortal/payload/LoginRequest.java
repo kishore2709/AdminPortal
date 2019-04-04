@@ -3,13 +3,24 @@ package com.confidential.AdminPortal.payload;
 import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
-    @NotBlank
+   @NotBlank
     private String usernameOrEmail;
+    
+   // @NotBlank
+    private String email;
 
     @NotBlank
     private String password;
 
-    public String getUsernameOrEmail() {
+    public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUsernameOrEmail() {
         return usernameOrEmail;
     }
 
