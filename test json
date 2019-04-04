@@ -1,0 +1,12 @@
+{
+"name": "Kishore Reddy",
+"username": "kishore",
+"email": "kishore@test.com",
+"password": "secret"
+}
+
+{
+"usernameOrEmail": "kishore",
+"password": "secret"
+}
+
