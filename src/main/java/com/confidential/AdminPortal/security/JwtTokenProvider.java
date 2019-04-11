@@ -4,8 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class JwtTokenProvider {
@@ -21,11 +27,23 @@ public class JwtTokenProvider {
     public String generateToken(Authentication authentication) {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        List<String> roles = new ArrayList<>();
+
+        if (userPrincipal.getAuthorities() != null) {
+            for (GrantedAuthority authority : userPrincipal.getAuthorities()) {
+                roles.add(authority.getAuthority());
+            }
+        }
+        Map<String, Object> claims = new HashMap< String,Object>();
+        claims.put("roles", roles);        
+        String username = userPrincipal.getUsername();
+        claims.put("username", username);
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
+        		.setClaims(claims)
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
