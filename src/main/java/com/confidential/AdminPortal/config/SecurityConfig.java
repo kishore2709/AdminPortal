@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.confidential.AdminPortal.security.JwtAuthenticationEntryPoint;
 import com.confidential.AdminPortal.security.JwtAuthenticationFilter;
-import com.confidential.AdminPortal.service.CustomUserDetailsServiceImpl;
+import com.confidential.AdminPortal.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +30,7 @@ import com.confidential.AdminPortal.service.CustomUserDetailsServiceImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   
 	@Autowired
-	CustomUserDetailsServiceImpl customUserDetailsService;
+	UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -39,18 +39,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
-
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
-
+    
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean

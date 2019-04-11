@@ -10,7 +10,7 @@ public class PageServiceImpl {
 	public PageResponse getPageMessage() {
 		// TODO Auto-generated method stub
 		PageResponse pageResponse = new PageResponse();
-		pageResponse.setMessage("Test Message from server");
+		pageResponse.setMessage("Test Message from server1");
 		pageResponse.setSuccess(true);
 		return pageResponse;
 	}

@@ -1,6 +1,10 @@
 package com.confidential.AdminPortal.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +16,7 @@ import com.confidential.AdminPortal.repository.UserRepository;
 import com.confidential.AdminPortal.security.UserPrincipal;
 
 @Service
-public class CustomUserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
@@ -45,4 +49,10 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
         return UserPrincipal.create(user);
     }
+    
+	/*
+	 * private Set getAuthority(User user) { Set authorities = new HashSet<>();
+	 * user.getRoles().forEach(role -> { authorities.add(new
+	 * SimpleGrantedAuthority("ROLE_" + role.getName())); }); return authorities; }
+	 */
 }
