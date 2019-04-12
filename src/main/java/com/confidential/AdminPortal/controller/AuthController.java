@@ -53,33 +53,6 @@ public class AuthController<Auth> {
     @Autowired
     JwtTokenProvider tokenProvider;
     
-    /*@PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser() {
-
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/users/{Kishore}")
-                .buildAndExpand("Kishore").toUri();
-System.out.println("User login successfully");
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User login successfully"));
-    }
-   @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody Auth auth) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                		//auth.getAuth().getUsernameOrEmail(),
-                		//auth.getAuth().getPassword()
-                		"test","test"
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
-    }
-*/
 	
 	 @PostMapping("/signin") public ResponseEntity<?>
 	 authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -99,7 +72,7 @@ System.out.println("User login successfully");
 	@PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+            return new ResponseEntity(new ApiResponse(false,  "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 

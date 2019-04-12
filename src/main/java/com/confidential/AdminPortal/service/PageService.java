@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.confidential.AdminPortal.payload.response.PageResponse;
 import com.confidential.AdminPortal.security.UserPrincipal;
 @Service
-public class PageServiceImpl {
+public class PageService {
 
 	public PageResponse getPageMessage() {
 		// TODO Auto-generated method stub

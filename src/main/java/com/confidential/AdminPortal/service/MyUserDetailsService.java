@@ -16,7 +16,7 @@ import com.confidential.AdminPortal.repository.UserRepository;
 import com.confidential.AdminPortal.security.UserPrincipal;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;

@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.confidential.AdminPortal.security.JwtAuthenticationEntryPoint;
 import com.confidential.AdminPortal.security.JwtAuthenticationFilter;
-import com.confidential.AdminPortal.service.UserDetailsServiceImpl;
+import com.confidential.AdminPortal.service.MyUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +30,7 @@ import com.confidential.AdminPortal.service.UserDetailsServiceImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	MyUserDetailsService userDetailsService;
 
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
