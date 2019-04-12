@@ -1,4 +1,4 @@
-package com.confidential.AdminPortal;
+package com.springapp;
 
 import java.util.TimeZone;
 
@@ -11,10 +11,10 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 @SpringBootApplication
 @EntityScan(basePackageClasses = { 
-		AdminPortalApplication.class,
+		RunApplication.class,
 		Jsr310JpaConverters.class 
 })
-public class AdminPortalApplication {
+public class RunApplication {
 
 	@PostConstruct
 	void init() {
@@ -22,6 +22,6 @@ public class AdminPortalApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(AdminPortalApplication.class, args);
+		SpringApplication.run(RunApplication.class, args);
 	}
 }
