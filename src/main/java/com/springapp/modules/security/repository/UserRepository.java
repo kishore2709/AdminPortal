@@ -3,7 +3,7 @@ package com.springapp.modules.security.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.confidential.AdminPortal.model.User;
+import com.springapp.modules.model.User;
 
 import java.util.List;
 import java.util.Optional;

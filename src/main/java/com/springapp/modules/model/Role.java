@@ -1,4 +1,5 @@
-package com.confidential.AdminPortal.model;
+package com.springapp.modules.model;
+
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 
