@@ -3,7 +3,7 @@ package com.confidential.AdminPortal.service;
 import org.springframework.stereotype.Service;
 
 import com.confidential.AdminPortal.payload.response.PageResponse;
-import com.confidential.AdminPortal.security.UserPrincipal;
+
 @Service
 public class PageService {
 

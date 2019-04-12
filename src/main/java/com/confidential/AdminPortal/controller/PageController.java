@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.confidential.AdminPortal.payload.response.PageResponse;
-import com.confidential.AdminPortal.security.CurrentUser;
-import com.confidential.AdminPortal.security.UserPrincipal;
+
 import com.confidential.AdminPortal.service.PageService;
+import com.springapp.modules.security.CurrentUser;
+import com.springapp.modules.security.UserPrincipal;
 
 
 @RestController
