@@ -1,7 +1,5 @@
 package com.confidential.AdminPortal.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +12,15 @@ import com.confidential.AdminPortal.service.PageService;
 import com.springapp.modules.security.CurrentUser;
 import com.springapp.modules.security.UserPrincipal;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/page")
 public class PageController {
 
     @Autowired
     private PageService pageService;
-
-    private static final Logger logger = LoggerFactory.getLogger(PageController.class);
     
     @GetMapping("/msg")
     

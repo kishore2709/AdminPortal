@@ -1,16 +1,8 @@
 package com.springapp.modules.security.controller;
 
-import java.net.URI;
-import java.util.Collections;
-
-import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,26 +13,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.confidential.AdminPortal.exception.AppException;
 import com.confidential.AdminPortal.payload.LoginRequest;
 import com.confidential.AdminPortal.payload.SignUpRequest;
 import com.confidential.AdminPortal.payload.response.ApiResponse;
+import com.springapp.exception.AppException;
 import com.springapp.modules.model.Role;
 import com.springapp.modules.model.RoleName;
 import com.springapp.modules.model.User;
 import com.springapp.modules.security.JwtAuthenticationResponse;
 import com.springapp.modules.security.JwtTokenUtil;
-import com.springapp.modules.security.JwtUser;
 import com.springapp.modules.security.repository.RoleRepository;
 import com.springapp.modules.security.repository.UserRepository;
-import com.springapp.modules.security.service.MyUserDetailsService;
 
+import lombok.extern.slf4j.Slf4j;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.Collections;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController<Auth> {
-
-	Logger log = LoggerFactory.getLogger(AuthController.class);
 
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -56,34 +50,17 @@ public class AuthController<Auth> {
 
 	@Autowired
 	JwtTokenUtil tokenProvider;
-	
-	@Autowired
-    private MyUserDetailsService userDetailsService;
-
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		
-		  final JwtUser jwtUser = (JwtUser)
-		  userDetailsService.loadUserByUsername(loginRequest.getUsernameOrEmail());
-		  
-		  
-		  if(!jwtUser.getPassword().equals(passwordEncoder.encode(loginRequest.
-		  getPassword()))){ throw new AccountExpiredException("wrong password"); }
-		  
-		  if(!jwtUser.isEnabled()){ throw new
-		  AccountExpiredException("The account has been disabled, please contact the administrator"
-		  ); }
-		 
-	        
-		Authentication authentication = 
-				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		final String jwt = tokenProvider.generateToken(authentication);
-		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,jwtUser));
-// return ResponseEntity.ok(new AuthenticationInfo(token,jwtUser)); - sending user details in jwtUser
+		String jwt = tokenProvider.generateToken(authentication);
+		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, jwt, null));
 	}
 
 	@SuppressWarnings("unchecked")

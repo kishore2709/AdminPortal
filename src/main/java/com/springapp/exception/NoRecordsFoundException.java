@@ -1,4 +1,5 @@
-package com.confidential.AdminPortal.exception;
+package com.springapp.exception;
+
 @SuppressWarnings("serial")
 public class NoRecordsFoundException extends RuntimeException {
 
