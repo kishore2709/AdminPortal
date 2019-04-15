@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
-@SpringBootApplication(scanBasePackages={
-"com.confidential","com.springapp.modules.system.service"})
+@SpringBootApplication
+//@SpringBootApplication(scanBasePackages={"com.confidential","com.springapp.modules.system.service"})
 @EntityScan(basePackageClasses = { 
 		RunApplication.class,
 		Jsr310JpaConverters.class 

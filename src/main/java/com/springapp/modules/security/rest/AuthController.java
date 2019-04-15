@@ -67,7 +67,8 @@ public class AuthController<Auth> {
 
 	@SuppressWarnings("unchecked")
 	@PostMapping("/signup") public ResponseEntity<?> registerUser(@Valid @RequestBody User signUpUser) { 
-		
+		log.debug(" registerUser ");
+		System.out.println(" registerUser ");
 	  if(userRepository.existsByUsername(signUpUser.getUsername())) { 
 			return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),HttpStatus.BAD_REQUEST); 
 			}
