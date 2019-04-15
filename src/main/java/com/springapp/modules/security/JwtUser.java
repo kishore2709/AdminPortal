@@ -10,90 +10,42 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class JwtUser implements UserDetails {
 
-	/*
-	 using lambok API we can have final variables without initialization
-	 
-	 @Getter
-@AllArgsConstructor
- private final Long id;
+    @JsonIgnore
+    private final Long id;
 
     private final String username;
-	 */
-    @JsonIgnore
-    private Long id;
-
-    public JwtUser(Long id, String username, String password, String email) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.email = email;
-	}
-
-	private String username;
 
     @JsonIgnore
-    private String password;
+    private final String password;
 
-    private String avatar;
+    private final String avatar;
 
-    private String email;
+    private final String email;
 
-    private String phone;
+    private final String phone;
 
-    private String dept;
+    private final String dept;
 
-    private String job;
+    private final String job;
 
     @JsonIgnore
-    private Collection<GrantedAuthority> authorities;
+    private final Collection<GrantedAuthority> authorities;
 
-    private boolean enabled;
+    private final boolean enabled;
 
     private Timestamp createTime;
 
     @JsonIgnore
-    private Date lastPasswordResetDate;
+    private final Date lastPasswordResetDate;
 
-    public Timestamp getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public String getDept() {
-		return dept;
-	}
-
-	public String getJob() {
-		return job;
-	}
-
-	public Date getLastPasswordResetDate() {
-		return lastPasswordResetDate;
-	}
-
-	@JsonIgnore
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -125,16 +77,4 @@ public class JwtUser implements UserDetails {
     public Collection getRoles() {
         return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
     }
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

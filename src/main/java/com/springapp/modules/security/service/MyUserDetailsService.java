@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springapp.exception.EntityNotFoundException;
-import com.springapp.modules.model.User;
 import com.springapp.modules.security.JwtUser;
-import com.springapp.modules.security.UserPrincipal;
 import com.springapp.modules.security.repository.UserRepository;
+import com.springapp.modules.system.domain.User;
+
 
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -21,21 +20,25 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    private JwtPermissionService permissionService;
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail)
             throws UsernameNotFoundException {
         // Let people login with either username or email
      
-    	User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+    	User user = userRepository.findByUsername(usernameOrEmail)
                 .orElseThrow(() -> 
                         new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail)
         );
-    	 if (user == null) {
-             throw new EntityNotFoundException(User.class, "name", usernameOrEmail);
-         } else {
-             return UserPrincipal.create(user);
+    	 if (user!= null) {
+    	        
+    	        // Throw specific exception based on boolean value
+             return createJwtUser(user);
          }
+		return null;
     }
 
     // This method is used by JWTAuthenticationFilter
@@ -44,23 +47,23 @@ public class MyUserDetailsService implements UserDetailsService {
             () -> new UsernameNotFoundException("User not found with id : " + id)
         );
 
-        return UserPrincipal.create(user);
+        return createJwtUser(user);
     }
     
     public UserDetails createJwtUser(User user) {
         return new JwtUser(
-                user.getId(),
+        		user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-             //   user.getAvatar(),
-                user.getEmail()
-              /*  user.getPhone(),
+                user.getAvatar(),
+                user.getEmail(),
+                user.getPhone(),
                 user.getDept().getName(),
                 user.getJob().getName(),
                 permissionService.mapToGrantedAuthorities(user),
                 user.getEnabled(),
                 user.getCreateTime(),
-                user.getLastPasswordResetTime()*/
+                user.getLastPasswordResetTime()
         );
     }
 	/*

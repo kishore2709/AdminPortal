@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.confidential.AdminPortal.payload.response.PageResponse;
-
 import com.confidential.AdminPortal.service.PageService;
 import com.springapp.modules.security.CurrentUser;
-import com.springapp.modules.security.UserPrincipal;
+import com.springapp.modules.security.JwtUser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +32,7 @@ public class PageController {
   //  @PreAuthorize("hasRole('USER')")
   @PreAuthorize("hasAuthority('ADMIN')")
     //@Secured("USER")
-     public PageResponse getPolls(@CurrentUser UserPrincipal currentUser) {
+     public PageResponse getPolls(@CurrentUser JwtUser currentUser) {
     //public PageResponse getPolls() {
         return pageService.getPageMessage();
     }

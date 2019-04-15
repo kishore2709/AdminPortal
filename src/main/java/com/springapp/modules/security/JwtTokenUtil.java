@@ -1,20 +1,4 @@
 package com.springapp.modules.security;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.impl.DefaultClock;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import com.springapp.modules.security.service.MyUserDetailsService;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +7,28 @@ import java.util.Map;
 import java.util.function.Function;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import com.springapp.modules.security.service.MyUserDetailsService;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Clock;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.impl.DefaultClock;
 
 @Component
 public class JwtTokenUtil {
@@ -40,33 +46,33 @@ public class JwtTokenUtil {
 
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
+    
+    public String generateToken(UserDetails userDetails) {
+    	 List<String> roles = new ArrayList<>();
 
-    public String generateToken(Authentication authentication) {
+         if (userDetails.getAuthorities() != null) {
+             for (GrantedAuthority authority : userDetails.getAuthorities()) {
+                 roles.add(authority.getAuthority());
+             }
+         }
+    	  Map<String, Object> claims = new HashMap<>();
+    	  claims.put("roles", roles);     
+    	  claims.put("username",  userDetails.getUsername());
+          return doGenerateToken(claims, userDetails.getUsername());
+      }
 
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        List<String> roles = new ArrayList<>();
+      private String doGenerateToken(Map<String, Object> claims, String subject) {
+          final Date createdDate = clock.now();
+          final Date expirationDate = calculateExpirationDate(createdDate);
 
-        if (userPrincipal.getAuthorities() != null) {
-            for (GrantedAuthority authority : userPrincipal.getAuthorities()) {
-                roles.add(authority.getAuthority());
-            }
-        }
-        Map<String, Object> claims = new HashMap< String,Object>();
-        claims.put("roles", roles);        
-        String username = userPrincipal.getUsername();
-        claims.put("username", username);
-
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
-
-        return Jwts.builder()
-        		.setClaims(claims)
-                .setSubject(Long.toString(userPrincipal.getId()))
-                .setIssuedAt(new Date())
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
+          return Jwts.builder()
+                  .setClaims(claims)
+                  .setSubject(subject)
+                  .setIssuedAt(createdDate)
+                  .setExpiration(expirationDate)
+                  .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                  .compact();
+      }
 
     public Long getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
