@@ -1,5 +1,6 @@
 package com.springapp.modules.security.repository;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
      * @param name
      * @return
      */
-    Role findByName(String name);
+	Optional<Role> findByName(String name);
 
     Set<Role> findByUsers_Id(Long id);
 
