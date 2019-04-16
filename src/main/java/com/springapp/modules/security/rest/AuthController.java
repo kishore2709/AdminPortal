@@ -6,7 +6,6 @@ import java.util.Collections;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.confidential.AdminPortal.payload.LoginRequest;
+import com.confidential.AdminPortal.payload.SignUpRequest;
 import com.confidential.AdminPortal.payload.response.ApiResponse;
 import com.springapp.exception.AppException;
 import com.springapp.modules.security.AuthoritiesConstants;
@@ -66,25 +66,32 @@ public class AuthController<Auth> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@PostMapping("/signup") public ResponseEntity<?> registerUser(@Valid @RequestBody User signUpUser) { 
+	@PostMapping("/signup") public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpUser) { 
 		log.debug(" registerUser ");
 		System.out.println(" registerUser ");
-	  if(userRepository.existsByUsername(signUpUser.getUsername())) { 
-			return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),HttpStatus.BAD_REQUEST); 
-			}
+		/*
+		 * if(userRepository.existsByUsername(signUpUser.getUsername())) { return new
+		 * ResponseEntity(new ApiResponse(false,
+		 * "Username is already taken!"),HttpStatus.BAD_REQUEST); }
+		 * 
+		 * if (userRepository.existsByEmail(signUpUser.getEmail())) { return new
+		 * ResponseEntity(new ApiResponse(false,
+		 * "Email Address already in use!"),HttpStatus.BAD_REQUEST); }
+		 */
+		User u = new User();
+		
+		u.setUsername(signUpUser.getUsername());
+		u.setEmail(signUpUser.getEmail());
+		u.setPhone("1234567890");
+		u.setEnabled(false);
+	  u.setPassword(EncryptUtils.encryptPassword(signUpUser.getPassword()));
 	  
-	  if (userRepository.existsByEmail(signUpUser.getEmail())) { 
-		  return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),HttpStatus.BAD_REQUEST); 
-		  }
-	  
-	  signUpUser.setPassword(EncryptUtils.encryptPassword(signUpUser.getPassword()));
-	  
-	  Role userRole = roleRepository.findByName(AuthoritiesConstants.USER) .orElseThrow(() ->
+	  Role userRole = roleRepository.findByName(AuthoritiesConstants.NORMAL_USER) .orElseThrow(() ->
 	  new AppException("User Role not set."));
 	  
-	  signUpUser.setRoles(Collections.singleton(userRole));
+	  u.setRoles(Collections.singleton(userRole));
 	  
-	  User result = userRepository.save(signUpUser);
+	  User result = userRepository.save(u);
 	  
 	  URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path(
 	  "/api/users/{username}") .buildAndExpand(result.getUsername()).toUri();
