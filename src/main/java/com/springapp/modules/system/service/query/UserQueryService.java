@@ -43,7 +43,7 @@ public class UserQueryService {
     @Autowired
     private UserRepository userRepo;
 
- // @Autowired
+  //@Autowired
     private UserMapper userMapper;
 
     /**
