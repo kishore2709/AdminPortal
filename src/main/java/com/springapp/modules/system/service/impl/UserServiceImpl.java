@@ -3,7 +3,6 @@ package com.springapp.modules.system.service.impl;
 import java.util.Date;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,14 +17,19 @@ import com.springapp.modules.system.service.dto.UserDTO;
 import com.springapp.modules.system.service.mapper.UserMapper;
 import com.springapp.utils.ValidationUtil;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    //@Autowired
     private UserRepository userRepository;
 
-    @Autowired
+   // @Autowired
     private UserMapper userMapper;
 
     @Override

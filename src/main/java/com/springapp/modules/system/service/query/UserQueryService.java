@@ -30,6 +30,11 @@ import com.springapp.modules.system.service.dto.UserDTO;
 import com.springapp.modules.system.service.mapper.UserMapper;
 import com.springapp.utils.PageUtil;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
 @Service
 @CacheConfig(cacheNames = "user")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -38,7 +43,7 @@ public class UserQueryService {
     @Autowired
     private UserRepository userRepo;
 
-    @Autowired
+ //   @Autowired
     private UserMapper userMapper;
 
     /**
