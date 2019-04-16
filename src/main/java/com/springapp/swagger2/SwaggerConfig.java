@@ -43,7 +43,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("elune 接口文档")
+                .title("elune Interface document")
                 .version("1.7")
                 .build();
     }
