@@ -1,6 +1,8 @@
 package com.springapp.modules.security.service;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.springapp.modules.security.JwtUser;
 import com.springapp.modules.security.repository.UserRepository;
+import com.springapp.modules.system.domain.Dept;
+import com.springapp.modules.system.domain.Job;
 import com.springapp.modules.system.domain.User;
 
 
@@ -58,8 +62,8 @@ public class MyUserDetailsService implements UserDetailsService {
                 user.getAvatar(),
                 user.getEmail(),
                 user.getPhone(),
-                user.getDept().getName(),
-                user.getJob().getName(),
+                Optional.ofNullable(user.getDept()).map(Dept::getName).orElse(null),
+                Optional.ofNullable(user.getJob()).map(Job::getName).orElse(null),
                 permissionService.mapToGrantedAuthorities(user),
                 user.getEnabled(),
                 user.getCreateTime(),
