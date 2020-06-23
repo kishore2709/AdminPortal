@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 public class JobDTO implements Serializable {
 
     /**
