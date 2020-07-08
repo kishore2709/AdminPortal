@@ -1,5 +1,4 @@
 SET FOREIGN_KEY_CHECKS=0;
-
 CREATE DATABASE springapp;
 
 DROP TABLE IF EXISTS `dept`;
@@ -15,10 +14,10 @@ CREATE TABLE `dept` (
 -- ----------------------------
 -- Records of dept
 -- ----------------------------
-INSERT INTO `dept` VALUES ('1', 'appadmin', '0', now(), '\1');
-INSERT INTO `dept` VALUES ('2', 'R&D department', '7',  now(), '\1');
-INSERT INTO `dept` VALUES ('5', 'Operation and maintenance department', '7',  now(), '\1');
-INSERT INTO `dept` VALUES ('6', 'Testing Division', '8',  now(), '\0');
+INSERT INTO `dept` VALUES ('1', 'appadmin', '0', now(), 1);
+INSERT INTO `dept` VALUES ('2', 'R&D department', '7',  now(), 1);
+INSERT INTO `dept` VALUES ('5', 'Operation and maintenance department', '7',  now(), 1);
+INSERT INTO `dept` VALUES ('6', 'Testing Division', '8',  now(), 0);
 
 -- ----------------------------
 -- Table structure for job
@@ -39,12 +38,12 @@ CREATE TABLE `job` (
 -- ----------------------------
 -- Records of job
 -- ----------------------------
-INSERT INTO `job` VALUES ('2', 'Chairman secretary', '\1', now(), '2', '1');
-INSERT INTO `job` VALUES ('8', 'Personnel commissioner', '\1', now(), '3', '11');
-INSERT INTO `job` VALUES ('10', 'Product manager', '\0', now(), '4', '2');
-INSERT INTO `job` VALUES ('11', 'Full stack development', '\1', now(), '6', '2');
-INSERT INTO `job` VALUES ('12', 'software test', '\1', now(), '5', '2');
-INSERT INTO `job` VALUES ('19', 'Chairman', '\1', now(), '1', '1');
+INSERT INTO `job` VALUES ('2', 'Chairman secretary', 1, now(), '2', '1');
+INSERT INTO `job` VALUES ('8', 'Personnel commissioner', 1, now(), '3', '11');
+INSERT INTO `job` VALUES ('10', 'Product manager', 0, now(), '4', '2');
+INSERT INTO `job` VALUES ('11', 'Full stack development', 1, now(), '6', '2');
+INSERT INTO `job` VALUES ('12', 'software test', 1, now(), '5', '2');
+INSERT INTO `job` VALUES ('19', 'Chairman', 1, now(), '1', '1');
 
 
 -- ----------------------------
@@ -66,39 +65,39 @@ CREATE TABLE `menu` (
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES ('1', '2018-12-18 15:11:29', '\0', 'System Management', null, '0', '1', 'system', 'system ');
-INSERT INTO `menu` VALUES ('2', '2018-12-18 15:14:44', '\0', 'User Management', 'system/user/index', '1', '2', 'peoples', 'user');
-INSERT INTO `menu` VALUES ('3', '2018-12-18 15:16:07', '\0', 'Role Management', 'system/role/index', '1', '3', 'role', 'role');
-INSERT INTO `menu` VALUES ('4', '2018-12-18 15:16:45', '\0', 'Permission Management', 'system/permission/index', '1', '4', 'permission', 'permission');
-INSERT INTO `menu` VALUES ('5', '2018-12-18 15:17:28', '\0', 'Menu Management', 'system/menu/index', '1', '5', 'menu', 'menu');
-INSERT INTO `menu` VALUES ('6', '2018-12-18 15:17:48', '\0', 'System Monitoring', null, '0', '10', 'monitor', 'monitor ');
-INSERT INTO `menu` VALUES ('7', '2018-12-18 15:18:26', '\0', 'Operation log', 'monitor/log/index', '6', '11', 'log', 'logs');
-INSERT INTO `menu` VALUES ('8', '2018-12-18 15:19:01', '\0', 'System Cache', 'monitor/redis/index', '6', '13', 'redis', 'redis');
-INSERT INTO `menu` VALUES ('9', '2018-12-18 15:19:34', '\0', 'SQL Monitor', 'monitor/sql/index', '6', '14', 'sqlMonitor', 'druid');
-INSERT INTO `menu` VALUES ('10', '2018-12-19 13:38:16', '\0', 'Component Management', null, '0', '50', 'zujian', 'components ');
-INSERT INTO `menu` VALUES ('11', '2018-12-19 13:38:49', '\0', 'icon library', 'components/IconSelect', '10', '51', 'icon ', 'icon');
-INSERT INTO `menu` VALUES ('12', '2018-12-24 20:37:35', '\0', 'Real Time Console', 'monitor/log/msg', '6', '16' , 'codeConsole', 'msg');
-INSERT INTO `menu` VALUES ('14', '2018-12-27 10:13:09', '\0', 'Mail Tools', 'tools/email/index', '36', '24', 'email', 'email');
-INSERT INTO `menu` VALUES ('15', '2018-12-27 11:58:25', '\0', 'rich text', 'components/Editor', '10', '52', 'fwb ', 'tinymce');
-INSERT INTO `menu` VALUES ('16', '2018-12-28 09:36:53', '\0', 'Picture bed management', 'tools/picture/index', '36', '25' , 'image', 'pictures');
-INSERT INTO `menu` VALUES ('17', '2018-12-28 15:09:49', '?', 'item address', '', '0', '0', 'github', 'https ://github.com/elunez/eladmin');
-INSERT INTO `menu` VALUES ('18', '2018-12-31 11:12:15', '\0', 'Seven cattle cloud storage', 'tools/qiniu/index', '36', '26 ', 'qiniu', 'qiniu');
-INSERT INTO `menu` VALUES ('19', '2018-12-31 14:52:38', '\0', 'Alipay Tools', 'tools/aliPay/index', '36', '27', 'alipay', 'aliPay');
-INSERT INTO `menu` VALUES ('21', '2019-01-04 16:22:03', '\0', 'Multi-level menu', '', '0', '900', 'menu', 'nested');
-INSERT INTO `menu` VALUES ('22', '2019-01-04 16:23:29', '\0', 'Secondary menu 1', 'nested/menu1/index', '21', '999 ', 'menu', 'menu1');
-INSERT INTO `menu` VALUES ('23', '2019-01-04 16:23:57', '\0', 'Secondary menu 2', 'nested/menu2/index', '21', '999 ', 'menu', 'menu2');
-INSERT INTO `menu` VALUES ('24', '2019-01-04 16:24:48', '\0', 'Third menu 1', 'nested/menu1/menu1-1', '22', '999', 'menu', 'menu1-1');
-INSERT INTO `menu` VALUES ('27', '2019-01-07 17:27:32', '\0', 'Level 3 menu', 'nested/menu1/menu1-2', '22', '999', 'menu', 'menu1-2');
-INSERT INTO `menu` VALUES ('28', '2019-01-07 20:34:40', '\0', 'Timed Task', 'system/timing/index', '36', '21', 'timing', 'timing');
-INSERT INTO `menu` VALUES ('30', '2019-01-11 15:45:55', '\0', 'code generation', 'generator/index', '36', '22', 'dev ', 'generator');
-INSERT INTO `menu` VALUES ('32', '2019-01-13 13:49:03', '\0', 'Exception log', 'monitor/log/errorLog', '6', '12', 'error', 'errorLog');
-INSERT INTO `menu` VALUES ('33', '2019-03-08 13:46:44', '\0', 'Markdown', 'components/MarkDown', '10', '53', 'markdown' , 'markdown');
-INSERT INTO `menu` VALUES ('34', '2019-03-08 15:49:40', '\0', 'Yaml Editor', 'components/YamlEdit', '10', '54', ' Dev', 'yaml');
-INSERT INTO `menu` VALUES ('35', '2019-03-25 09:46:00', '\0', 'Department Management', 'system/dept/index', '1', '6', 'dept', 'dept');
-INSERT INTO `menu` VALUES ('36', '2019-03-29 10:57:35', '\0', 'System Tools', '', '0', '20', 'sys-tools' , 'sys-tools');
-INSERT INTO `menu` VALUES ('37', '2019-03-29 13:51:18', '\0', 'post management', 'system/job/index', '1', '7', 'Steve-Jobs', 'job');
-INSERT INTO `menu` VALUES ('38', '2019-03-29 19:57:53', '\0', 'interface documentation', 'tools/swagger/index', '36', '23', 'swagger', 'swagger2');
-INSERT INTO `menu` VALUES ('39', '2019-04-10 11:49:04', '\0', 'dictionary management', 'system/dict/index', '1', '8', 'dictionary', 'dict');
+INSERT INTO `menu` VALUES ('1', '2018-12-18 15:11:29', 0, 'System Management', null, '0', '1', 'system', 'system ');
+INSERT INTO `menu` VALUES ('2', '2018-12-18 15:14:44', 0, 'User Management', 'system/user/index', '1', '2', 'peoples', 'user');
+INSERT INTO `menu` VALUES ('3', '2018-12-18 15:16:07', 0, 'Role Management', 'system/role/index', '1', '3', 'role', 'role');
+INSERT INTO `menu` VALUES ('4', '2018-12-18 15:16:45', 0, 'Permission Management', 'system/permission/index', '1', '4', 'permission', 'permission');
+INSERT INTO `menu` VALUES ('5', '2018-12-18 15:17:28', 0, 'Menu Management', 'system/menu/index', '1', '5', 'menu', 'menu');
+INSERT INTO `menu` VALUES ('6', '2018-12-18 15:17:48', 0, 'System Monitoring', null, '0', '10', 'monitor', 'monitor ');
+INSERT INTO `menu` VALUES ('7', '2018-12-18 15:18:26', 0, 'Operation log', 'monitor/log/index', '6', '11', 'log', 'logs');
+INSERT INTO `menu` VALUES ('8', '2018-12-18 15:19:01', 0, 'System Cache', 'monitor/redis/index', '6', '13', 'redis', 'redis');
+INSERT INTO `menu` VALUES ('9', '2018-12-18 15:19:34', 0, 'SQL Monitor', 'monitor/sql/index', '6', '14', 'sqlMonitor', 'druid');
+INSERT INTO `menu` VALUES ('10', '2018-12-19 13:38:16', 0, 'Component Management', null, '0', '50', 'zujian', 'components ');
+INSERT INTO `menu` VALUES ('11', '2018-12-19 13:38:49', 0, 'icon library', 'components/IconSelect', '10', '51', 'icon ', 'icon');
+INSERT INTO `menu` VALUES ('12', '2018-12-24 20:37:35', 0, 'Real Time Console', 'monitor/log/msg', '6', '16' , 'codeConsole', 'msg');
+INSERT INTO `menu` VALUES ('14', '2018-12-27 10:13:09', 0, 'Mail Tools', 'tools/email/index', '36', '24', 'email', 'email');
+INSERT INTO `menu` VALUES ('15', '2018-12-27 11:58:25', 0, 'rich text', 'components/Editor', '10', '52', 'fwb ', 'tinymce');
+INSERT INTO `menu` VALUES ('16', '2018-12-28 09:36:53', 0, 'Picture bed management', 'tools/picture/index', '36', '25' , 'image', 'pictures');
+INSERT INTO `menu` VALUES ('17', '2018-12-28 15:09:49', 0, 'item address', '', '0', '0', 'github', 'https ://github.com/elunez/eladmin');
+INSERT INTO `menu` VALUES ('18', '2018-12-31 11:12:15', 0, 'Seven cattle cloud storage', 'tools/qiniu/index', '36', '26 ', 'qiniu', 'qiniu');
+INSERT INTO `menu` VALUES ('19', '2018-12-31 14:52:38', 0, 'Alipay Tools', 'tools/aliPay/index', '36', '27', 'alipay', 'aliPay');
+INSERT INTO `menu` VALUES ('21', '2019-01-04 16:22:03', 0, 'Multi-level menu', '', '0', '900', 'menu', 'nested');
+INSERT INTO `menu` VALUES ('22', '2019-01-04 16:23:29', 0, 'Secondary menu 1', 'nested/menu1/index', '21', '999 ', 'menu', 'menu1');
+INSERT INTO `menu` VALUES ('23', '2019-01-04 16:23:57', 0, 'Secondary menu 2', 'nested/menu2/index', '21', '999 ', 'menu', 'menu2');
+INSERT INTO `menu` VALUES ('24', '2019-01-04 16:24:48', 0, 'Third menu 1', 'nested/menu1/menu1-1', '22', '999', 'menu', 'menu1-1');
+INSERT INTO `menu` VALUES ('27', '2019-01-07 17:27:32', 0, 'Level 3 menu', 'nested/menu1/menu1-2', '22', '999', 'menu', 'menu1-2');
+INSERT INTO `menu` VALUES ('28', '2019-01-07 20:34:40', 0, 'Timed Task', 'system/timing/index', '36', '21', 'timing', 'timing');
+INSERT INTO `menu` VALUES ('30', '2019-01-11 15:45:55', 0, 'code generation', 'generator/index', '36', '22', 'dev ', 'generator');
+INSERT INTO `menu` VALUES ('32', '2019-01-13 13:49:03', 0, 'Exception log', 'monitor/log/errorLog', '6', '12', 'error', 'errorLog');
+INSERT INTO `menu` VALUES ('33', '2019-03-08 13:46:44', 0, 'Markdown', 'components/MarkDown', '10', '53', 'markdown' , 'markdown');
+INSERT INTO `menu` VALUES ('34', '2019-03-08 15:49:40', 0, 'Yaml Editor', 'components/YamlEdit', '10', '54', ' Dev', 'yaml');
+INSERT INTO `menu` VALUES ('35', '2019-03-25 09:46:00', 0, 'Department Management', 'system/dept/index', '1', '6', 'dept', 'dept');
+INSERT INTO `menu` VALUES ('36', '2019-03-29 10:57:35', 0, 'System Tools', '', '0', '20', 'sys-tools' , 'sys-tools');
+INSERT INTO `menu` VALUES ('37', '2019-03-29 13:51:18', 0, 'post management', 'system/job/index', '1', '7', 'Steve-Jobs', 'job');
+INSERT INTO `menu` VALUES ('38', '2019-03-29 19:57:53', 0, 'interface documentation', 'tools/swagger/index', '36', '23', 'swagger', 'swagger2');
+INSERT INTO `menu` VALUES ('39', '2019-04-10 11:49:04', 0, 'dictionary management', 'system/dict/index', '1', '8', 'dictionary', 'dict');
 
 -- ----------------------------
 -- Table structure for permission
